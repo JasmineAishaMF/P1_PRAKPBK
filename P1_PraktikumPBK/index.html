@@ -3,334 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vue.js To-Do App</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js"></script>
-    <style>
-        /* style.css */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .app-container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            max-width: 500px;
-            width: 100%;
-            animation: slideUp 0.6s ease-out;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .app-title {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-            font-size: 2rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .input-section {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-
-        .todo-input {
-            flex: 1;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            outline: none;
-        }
-
-        .todo-input:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .add-btn {
-            padding: 15px 25px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .add-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        .add-btn:active {
-            transform: translateY(0);
-        }
-
-        .todo-list {
-            list-style: none;
-        }
-
-        .todo-item {
-            background: #f8f9fa;
-            margin-bottom: 10px;
-            padding: 15px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: all 0.3s ease;
-            animation: fadeIn 0.4s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .todo-item:hover {
-            background: #e9ecef;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .todo-item.completed {
-            opacity: 0.6;
-            text-decoration: line-through;
-        }
-
-        .todo-text {
-            flex: 1;
-            margin-left: 10px;
-            font-size: 16px;
-            color: #333;
-        }
-
-        .todo-checkbox {
-            width: 20px;
-            height: 20px;
-            accent-color: #667eea;
-            cursor: pointer;
-        }
-
-        .delete-btn {
-            background: #ff6b6b;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .delete-btn:hover {
-            background: #ff5252;
-            transform: scale(1.05);
-        }
-
-        .stats {
-            margin-top: 20px;
-            text-align: center;
-            color: #666;
-            font-size: 14px;
-        }
-
-        .empty-state {
-            text-align: center;
-            color: #999;
-            font-style: italic;
-            padding: 30px;
-        }
-
-        .filter-section {
-            margin-bottom: 20px;
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        .filter-btn {
-            padding: 8px 16px;
-            border: 2px solid #e0e0e0;
-            background: white;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 14px;
-        }
-
-        .filter-btn.active {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border-color: transparent;
-        }
-
-        .filter-btn:hover {
-            border-color: #667eea;
-        }
-    </style>
+    <title>Form Biodata Mahasiswa</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
 <body>
     <div id="app">
-        <div class="app-container">
-            <h1 class="app-title">📝 To-Do List</h1>
-            
-            <div class="input-section">
-                <input 
-                    v-model="newTodo" 
-                    @keyup.enter="addTodo"
-                    class="todo-input" 
-                    type="text" 
-                    placeholder="Tambahkan tugas baru..."
-                >
-                <button @click="addTodo" class="add-btn">Tambah</button>
+        <div class="container">
+            <div class="header">
+                <h1>📚 Form Biodata Mahasiswa</h1>
+                <p>Silakan lengkapi data diri Anda dengan benar</p>
             </div>
+            
+            <div class="form-container">
+                <form @submit.prevent="submitForm">
+                    <div class="form-group">
+                        <label for="nama">Nama Lengkap *</label>
+                        <input 
+                            type="text" 
+                            id="nama" 
+                            v-model="formData.nama"
+                            placeholder="Masukkan nama lengkap Anda"
+                            required
+                        >
+                    </div>
 
-            <div class="filter-section">
-                <button 
-                    @click="currentFilter = 'all'"
-                    :class="['filter-btn', { active: currentFilter === 'all' }]"
-                >
-                    Semua
-                </button>
-                <button 
-                    @click="currentFilter = 'active'"
-                    :class="['filter-btn', { active: currentFilter === 'active' }]"
-                >
-                    Aktif
-                </button>
-                <button 
-                    @click="currentFilter = 'completed'"
-                    :class="['filter-btn', { active: currentFilter === 'completed' }]"
-                >
-                    Selesai
-                </button>
-            </div>
-            
-            <ul class="todo-list" v-if="filteredTodos.length > 0">
-                <li 
-                    v-for="todo in filteredTodos" 
-                    :key="todo.id"
-                    :class="['todo-item', { completed: todo.completed }]"
-                >
-                    <input 
-                        v-model="todo.completed"
-                        type="checkbox" 
-                        class="todo-checkbox"
-                    >
-                    <span class="todo-text">{{ todo.text }}</span>
-                    <button @click="deleteTodo(todo.id)" class="delete-btn">Hapus</button>
-                </li>
-            </ul>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tanggalLahir">Tanggal Lahir *</label>
+                            <input 
+                                type="date" 
+                                id="tanggalLahir" 
+                                v-model="formData.tanggalLahir"
+                                required
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tempatLahir">Tempat Lahir *</label>
+                            <input 
+                                type="text" 
+                                id="tempatLahir" 
+                                v-model="formData.tempatLahir"
+                                placeholder="Kota tempat lahir"
+                                required
+                            >
+                        </div>
+                    </div>
 
-            <div v-else class="empty-state">
-                <p v-if="currentFilter === 'all'">Belum ada tugas. Tambahkan tugas pertama Anda!</p>
-                <p v-else-if="currentFilter === 'active'">Tidak ada tugas aktif.</p>
-                <p v-else>Tidak ada tugas yang selesai.</p>
-            </div>
-            
-            <div class="stats" v-if="todos.length > 0">
-                Total: {{ todos.length }} | 
-                Aktif: {{ activeTodos }} | 
-                Selesai: {{ completedTodos }}
+                    <div class="form-group">
+                        <label for="tempatTinggal">Tempat Tinggal Saat Ini *</label>
+                        <textarea 
+                            id="tempatTinggal" 
+                            v-model="formData.tempatTinggal"
+                            placeholder="Alamat lengkap tempat tinggal saat ini"
+                            required
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="universitas">Universitas *</label>
+                        <input 
+                            type="text" 
+                            id="universitas" 
+                            v-model="formData.universitas"
+                            placeholder="Nama universitas"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="jurusan">Jurusan *</label>
+                            <input 
+                                type="text" 
+                                id="jurusan" 
+                                v-model="formData.jurusan"
+                                placeholder="Nama jurusan"
+                                required
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="programStudi">Program Studi *</label>
+                            <select id="programStudi" v-model="formData.programStudi" required>
+                                <option value="">Pilih Program Studi</option>
+                                <option value="D3">Diploma 3 (D3)</option>
+                                <option value="D4">Diploma 4 (D4)</option>
+                                <option value="S1">Sarjana (S1)</option>
+                                <option value="S2">Magister (S2)</option>
+                                <option value="S3">Doktor (S3)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="alasanMasuk">Alasan Masuk Jurusan Tersebut *</label>
+                        <textarea 
+                            id="alasanMasuk" 
+                            v-model="formData.alasanMasuk"
+                            placeholder="Ceritakan alasan Anda memilih jurusan ini..."
+                            required
+                        ></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        🚀 Simpan Data
+                    </button>
+                </form>
+
+                <transition name="fade">
+                    <div v-if="showResult" class="result-card">
+                        <h3>📋 Data yang Tersimpan:</h3>
+                        <div class="result-item">
+                            <span class="result-label">Nama Lengkap:</span>
+                            <span class="result-value">{{ submittedData.nama }}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Tempat, Tanggal Lahir:</span>
+                            <span class="result-value">{{ submittedData.tempatLahir }}, {{ formatDate(submittedData.tanggalLahir) }}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Tempat Tinggal:</span>
+                            <span class="result-value">{{ submittedData.tempatTinggal }}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Universitas:</span>
+                            <span class="result-value">{{ submittedData.universitas }}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Jurusan:</span>
+                            <span class="result-value">{{ submittedData.jurusan }}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Program Studi:</span>
+                            <span class="result-value">{{ submittedData.programStudi }}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Alasan Masuk:</span>
+                            <span class="result-value">{{ submittedData.alasanMasuk }}</span>
+                        </div>
+                    </div>
+                </transition>
             </div>
         </div>
     </div>
 
-    <script>
-        // main.js
-        const { createApp } = Vue;
-
-        createApp({
-            data() {
-                return {
-                    newTodo: '',
-                    currentFilter: 'all',
-                    todos: [
-                        { id: 1, text: 'Belajar Vue.js', completed: false },
-                        { id: 2, text: 'Membuat aplikasi to-do', completed: true },
-                        { id: 3, text: 'Mengerjakan tugas', completed: false }
-                    ]
-                }
-            },
-            computed: {
-                filteredTodos() {
-                    switch(this.currentFilter) {
-                        case 'active':
-                            return this.todos.filter(todo => !todo.completed);
-                        case 'completed':
-                            return this.todos.filter(todo => todo.completed);
-                        default:
-                            return this.todos;
-                    }
-                },
-                activeTodos() {
-                    return this.todos.filter(todo => !todo.completed).length;
-                },
-                completedTodos() {
-                    return this.todos.filter(todo => todo.completed).length;
-                }
-            },
-            methods: {
-                addTodo() {
-                    if (this.newTodo.trim()) {
-                        this.todos.push({
-                            id: Date.now(),
-                            text: this.newTodo.trim(),
-                            completed: false
-                        });
-                        this.newTodo = '';
-                    }
-                },
-                deleteTodo(id) {
-                    this.todos = this.todos.filter(todo => todo.id !== id);
-                }
-            },
-            mounted() {
-                // Focus pada input saat aplikasi dimuat
-                this.$nextTick(() => {
-                    document.querySelector('.todo-input').focus();
-                });
-            }
-        }).mount('#app');
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
